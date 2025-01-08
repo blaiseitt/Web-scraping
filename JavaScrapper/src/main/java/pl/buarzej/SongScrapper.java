@@ -2,31 +2,41 @@ package pl.buarzej;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
-import java.io.IOException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 public class SongScrapper {
 
     public static void main(String[] args) {
 
-        String url = "https://www.empik.com/bestsellery/ksiazki/informatyka";
+        System.setProperty("webdriver.chrome.driver", "E:\\Projects\\Webdrivers\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+        String dynamicContentUrl = "https://live.rmf.fm/#utm_source=rmf.fm&utm_medium=menu";
 
         try {
-            Document document = Jsoup.connect(url).get();
-            Elements songs = document.select(".search-list-item-hover");
-            System.out.println("==========================");
-            System.out.println("Songs - Web Scrapper");
-            System.out.println("==========================");
+            driver.get(dynamicContentUrl);
+            Thread.sleep(2500);
+            String pageSource = driver.getPageSource();
 
-            String title = songs.getFirst().select(".product-title > a").first().attr("title");
-            String author = songs.getFirst().select(".smartAuthorWrapper").text();
+            Document document = Jsoup.parse(pageSource);
+            Elements songs = document.select("div.item.song.visible");
+            //need to scroll page in order to retrieve more songs
+            System.out.println("Number of songs retrieved: " + songs.size());
+            String authorAndTitle = songs.first().select("span.title-text").text();
 
-            System.out.println(title);
-            System.out.println(author);
-        } catch (IOException e) {
+            //split author and title - do it in more convinient way
+            String authorAndTitleParts[] = authorAndTitle.split("-", 2);
+
+            String hour = songs.first().select("span.hour").text();
+            System.out.println("Artist: " + authorAndTitleParts[0].trim());
+            System.out.println("Song title: " + authorAndTitleParts[1].trim());
+            System.out.println("Time played: " + hour);
+
+        } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            driver.quit();
         }
 
     }
