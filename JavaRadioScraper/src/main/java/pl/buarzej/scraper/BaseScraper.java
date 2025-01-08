@@ -1,6 +1,5 @@
 package pl.buarzej.scraper;
 
-import org.jsoup.nodes.Element;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import pl.buarzej.model.Song;

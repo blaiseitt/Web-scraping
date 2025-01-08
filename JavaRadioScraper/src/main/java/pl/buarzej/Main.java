@@ -1,11 +1,9 @@
 package pl.buarzej;
 
 import pl.buarzej.model.Song;
-import pl.buarzej.scraper.RmfScraper;
 import pl.buarzej.service.ScrapingService;
 import pl.buarzej.utils.PrintSongDataUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
