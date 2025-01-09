@@ -4,9 +4,14 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pl.buarzej.Configuration.StationConfig;
 import pl.buarzej.model.Song;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,16 +33,34 @@ public class RmfScraper extends BaseScraper {
 
         try {
             driver.get(url);
-            Thread.sleep(2500);
-            String pageSource = driver.getPageSource();
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(CSS_ELEMENTS)));
 
-            Document document = Jsoup.parse(pageSource);
-            Elements elements = document.select(CSS_ELEMENTS);
-            //need to scroll page in order to retrieve more songs
-            System.out.println("Number of songs retrieved: " + elements.size());
+            int scrollAttempts = 0;
+            final int maxScrollAttempts = 7;
+            final int scrollPauseTime = 250;
+            final int demandedSize = 12;
+            Elements elements = null;
 
-            for (Element element: elements) {
-                songsList.add(songFromElement(element, config));
+            while (scrollAttempts < maxScrollAttempts) {
+                String pageSource = driver.getPageSource();
+                Document document = Jsoup.parse(pageSource);
+                elements = document.select(CSS_ELEMENTS);
+                System.out.println("Number of songs retrieved after scroll " + scrollAttempts + ": " + elements.size());
+
+                if (elements.size() >= demandedSize) {
+                    break;
+                }
+
+                ((JavascriptExecutor) driver).executeScript("window.scrollBy(0, 1600)");
+                //TODO figure out condition for wait.until so it can be used instead thread.sleep
+                Thread.sleep(scrollPauseTime);
+                scrollAttempts++;
+            }
+            //TODO is it possible for browser to not popup?
+            for (Element element : elements) {
+                Song song = songFromElement(element, config);
+                songsList.add(song);
             }
 
         } catch (Exception e) {

@@ -4,9 +4,13 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pl.buarzej.Configuration.StationConfig;
 import pl.buarzej.model.Song;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,12 +34,12 @@ public class EskaScraper extends BaseScraper {
 
         try {
             driver.get(url);
-            Thread.sleep(2500);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(CSS_ELEMENTS)));
             String pageSource = driver.getPageSource();
 
             Document document = Jsoup.parse(pageSource);
             Elements elements = document.select(CSS_ELEMENTS);
-            //TODO print what station is music from
             System.out.println("Number of songs retrieved: " + elements.size());
 
             for (Element element: elements) {
