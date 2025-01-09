@@ -10,9 +10,9 @@ import pl.buarzej.model.Song;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RmfScraper extends BaseScraper {
+public class EskaScraper extends BaseScraper {
 
-    public RmfScraper(StationConfig config) {
+    public EskaScraper(StationConfig config) {
         super(config);
     }
 
@@ -28,9 +28,9 @@ public class RmfScraper extends BaseScraper {
             String pageSource = driver.getPageSource();
 
             Document document = Jsoup.parse(pageSource);
-            Elements elements = document.select("div.item.song.visible");
+            //TODO move cssqueries to private static final String
+            Elements elements = document.select("div.vjsPlayingHistory__hit__info");
             //TODO print what station is music from
-            //need to scroll page in order to retrieve more songs
             System.out.println("Number of songs retrieved: " + elements.size());
 
             for (Element element: elements) {
@@ -48,13 +48,14 @@ public class RmfScraper extends BaseScraper {
 
     //TODO separate class so it is easier for testing
     private static Song songFromElement(Element element, StationConfig config) {
-        String authorAndTitle = element.select("span.title-text").text();
+        String title = element.select("div.vjsPlayingHistory__hit__title").text();
+        String author = element.select("div.vjsPlayingHistory__hit__author").text();
         //split author and title - do it in more convinient way, for example artist a-ha is bugged because of this solution
         //when multiple authors they are split with '/'
-        String authorAndTitleParts[] = authorAndTitle.split("-", 2);
 
-        String hour = element.select("span.hour").text();
-        Song song = new Song(authorAndTitleParts[1].trim(), authorAndTitleParts[0].trim(), hour, null, config.getDisplayName());
+        //TODO filter "Graliśmy o "
+        String hour = element.select("div.vjsPlayingHistory__hit__playdate").text();
+        Song song = new Song(title, author, hour, null, config.getDisplayName());
         return song;
     }
 

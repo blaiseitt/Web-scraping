@@ -2,20 +2,19 @@ package pl.buarzej.service;
 
 import pl.buarzej.model.Song;
 import pl.buarzej.scraper.BaseScraper;
-import pl.buarzej.scraper.RmfScraper;
 import pl.buarzej.scraper.ScraperFactory;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ScrapingService {
 
+    private final List<String> stationNames = List.of("rmf", "eska");
+
     public List<Song> runAllScrapers() {
-        //TODO runAll and runSelected should be made in a same manner - string based probably
-        List<BaseScraper> scrapers = Arrays.asList(new RmfScraper());
         List<Song> songList = new ArrayList<>();
-        scrapers.forEach(scraper -> {
+        stationNames.forEach(stationName -> {
+            BaseScraper scraper = ScraperFactory.getScraper(stationName);
             scraper.initializeDriver();
             songList.addAll(scraper.scrapeSongs());
             scraper.closeDriver();
@@ -23,12 +22,14 @@ public class ScrapingService {
         return songList;
     }
 
-    public void runSelectedScrapers(List<String> stationNames) {
-        for (String station : stationNames) {
-            BaseScraper scraper = ScraperFactory.getScraper(station);
+    public List<Song> runSelectedScrapers(List<String> selectedStations) {
+        List<Song> songList = new ArrayList<>();
+        selectedStations.forEach(stationName -> {
+            BaseScraper scraper = ScraperFactory.getScraper(stationName);
             scraper.initializeDriver();
-            scraper.scrapeSongs();
+            songList.addAll(scraper.scrapeSongs());
             scraper.closeDriver();
-        }
+        });
+        return songList;
     }
 }
