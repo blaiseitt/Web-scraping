@@ -13,7 +13,7 @@ public class Main {
         System.setProperty("webdriver.chrome.driver", "E:\\Projects\\Webdrivers\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe");
 
         ScrapingService service = new ScrapingService();
-        List<Song> songs = service.runSelectedScrapers(List.of("eska"));
+        List<Song> songs = service.runSelectedScrapers(List.of("plus"));
         PrintSongDataUtil.printSongsDetails(songs);
     }
 }

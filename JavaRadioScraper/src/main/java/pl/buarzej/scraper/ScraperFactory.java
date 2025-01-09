@@ -13,6 +13,7 @@ public class ScraperFactory {
         return switch (stationName.toLowerCase()) {
             case "rmf" -> new RmfScraper(config);
             case "eska" -> new EskaScraper(config);
+            case "plus" -> new PlusScraper(config);
             default -> throw new UnsupportedOperationException("Unknown station: " + stationName);
         };
     }

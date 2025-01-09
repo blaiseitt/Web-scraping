@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ScrapingService {
 
-    private final List<String> stationNames = List.of("rmf", "eska");
+    private final List<String> stationNames = List.of("rmf", "eska", "plus");
 
     public List<Song> runAllScrapers() {
         List<Song> songList = new ArrayList<>();
