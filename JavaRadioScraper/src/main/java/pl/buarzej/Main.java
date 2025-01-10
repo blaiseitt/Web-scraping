@@ -26,6 +26,6 @@ public class Main {
 
         ScrapingService service = new ScrapingService();
         List<Song> songs = service.runSelectedScrapers(List.of("plus"));
-        PrintSongDataUtil.printSongsDetails(songs);
+        System.out.print(PrintSongDataUtil.printSongsDetails(songs));
     }
 }

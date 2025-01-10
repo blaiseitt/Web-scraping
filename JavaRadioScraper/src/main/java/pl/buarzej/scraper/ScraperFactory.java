@@ -14,7 +14,7 @@ public class ScraperFactory {
             case "rmf" -> new RmfScraper(config);
             case "eska" -> new EskaScraper(config);
             case "plus" -> new PlusScraper(config);
-            default -> throw new UnsupportedOperationException("Unknown station: " + stationName);
+            default -> throw new UnsupportedOperationException("Unsupported station: " + stationName);
         };
     }
 }
