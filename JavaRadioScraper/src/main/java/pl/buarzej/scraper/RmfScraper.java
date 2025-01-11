@@ -8,8 +8,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pl.buarzej.Configuration.StationConfig;
+import pl.buarzej.configuration.StationConfig;
 import pl.buarzej.model.Song;
+import pl.buarzej.strategy.SongParserStrategy;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -17,9 +18,7 @@ import java.util.List;
 
 public class RmfScraper extends BaseScraper {
 
-    public static final String CSS_ELEMENTS = "div.item.song.visible";
-    public static final String CSS_TITLE_AUTHOR = "span.title-text";
-    public static final String CSS_PLAYDATE = "span.hour";
+    private static final String CSS_ELEMENTS = "div.item.song.visible";
 
     public RmfScraper(StationConfig config) {
         super(config);
@@ -30,6 +29,8 @@ public class RmfScraper extends BaseScraper {
 
         String url = config.getUrl();
         List<Song> songsList = new ArrayList<>();
+
+        SongParserStrategy parser = config.getSongParserStrategy();
 
         try {
             driver.get(url);
@@ -59,8 +60,7 @@ public class RmfScraper extends BaseScraper {
             }
             //TODO is it possible for browser to not popup?
             for (Element element : elements) {
-                Song song = songFromElement(element, config);
-                songsList.add(song);
+                songsList.add(parser.parseSong(element, config));
             }
 
         } catch (Exception e) {
@@ -70,18 +70,6 @@ public class RmfScraper extends BaseScraper {
         }
 
         return songsList;
-    }
-
-    //TODO separate class so it is easier for testing
-    private static Song songFromElement(Element element, StationConfig config) {
-        String authorAndTitle = element.select(CSS_TITLE_AUTHOR).text();
-        //split author and title - do it in more convinient way, for example artist a-ha is bugged because of this solution
-        //when multiple authors they are split with '/'
-        String authorAndTitleParts[] = authorAndTitle.split("-", 2);
-
-        String hour = element.select(CSS_PLAYDATE).text();
-        Song song = new Song(authorAndTitleParts[1].trim(), authorAndTitleParts[0].trim(), hour, null, config.getDisplayName());
-        return song;
     }
 
 }

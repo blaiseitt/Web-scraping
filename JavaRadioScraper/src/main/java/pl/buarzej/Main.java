@@ -25,6 +25,7 @@ public class Main {
         System.setProperty(properties.getProperty("system.chromedriver"), properties.getProperty("path.to.chromedriver"));
 
         ScrapingService service = new ScrapingService();
+        //TODO for linux plus on given url does not work
         List<Song> songs = service.runSelectedScrapers(List.of("plus"));
         System.out.print(PrintSongDataUtil.printSongsDetails(songs));
     }

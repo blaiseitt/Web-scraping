@@ -1,7 +1,7 @@
 package pl.buarzej.scraper;
 
-import pl.buarzej.Configuration.StationConfig;
-import pl.buarzej.Configuration.StationConfiguration;
+import pl.buarzej.configuration.StationConfig;
+import pl.buarzej.configuration.StationConfiguration;
 
 public class ScraperFactory {
 
