@@ -12,6 +12,7 @@ public class RmfSongParserStrategy implements SongParserStrategy {
     @Override
     public Song parseSong(Element element, StationConfig config) {
         String authorAndTitle = element.select(CSS_TITLE_AUTHOR).text();
+        //TODO Same as in Eska
         //split author and title - do it in more convinient way, for example artist a-ha is bugged because of this solution
         //when multiple authors they are split with '/'
         String authorAndTitleParts[] = authorAndTitle.split("-", 2);
