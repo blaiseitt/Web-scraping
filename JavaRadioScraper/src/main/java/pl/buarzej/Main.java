@@ -1,10 +1,9 @@
 package pl.buarzej;
 
 import pl.buarzej.model.Song;
-import pl.buarzej.service.ScrapingService;
+import pl.buarzej.service.ScrapingServiceImpl;
 import pl.buarzej.utils.PrintSongDataUtil;
 
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Properties;
@@ -24,7 +23,7 @@ public class Main {
 
         System.setProperty(properties.getProperty("system.chromedriver"), properties.getProperty("path.to.chromedriver"));
 
-        ScrapingService service = new ScrapingService();
+        ScrapingServiceImpl service = new ScrapingServiceImpl();
         //TODO for linux plus on given url does not work
         List<Song> songs = service.runSelectedScrapers(List.of("plus"));
         System.out.print(PrintSongDataUtil.printSongsDetails(songs));
