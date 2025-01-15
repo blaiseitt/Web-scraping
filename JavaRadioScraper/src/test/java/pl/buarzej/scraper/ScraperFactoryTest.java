@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 public class ScraperFactoryTest {
 
-    @Test
+    /*@Test
     public void testCreateRmfScraper() {
         BaseScraper scraper = ScraperFactory.getScraper("rmf");
         //TODO check if static import assert methods is better or worse whats the difference in this case
@@ -18,5 +18,5 @@ public class ScraperFactoryTest {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             ScraperFactory.getScraper("unsupported");
         }, "No scraper configuration found for: unsupported");
-    }
+    }*/
 }

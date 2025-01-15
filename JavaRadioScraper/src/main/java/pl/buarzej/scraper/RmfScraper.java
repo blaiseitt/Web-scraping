@@ -6,34 +6,40 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pl.buarzej.configuration.StationConfig;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+import pl.buarzej.configuration.StationDetails;
 import pl.buarzej.model.Song;
 import pl.buarzej.strategy.SongParserStrategy;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+@Component
 public class RmfScraper extends BaseScraper {
 
     private static final String CSS_ELEMENTS = "div.item.song.visible";
+    private final StationDetails stationDetails;
 
-    public RmfScraper(StationConfig config) {
-        super(config);
+    public RmfScraper(WebDriver driver,
+                      @Qualifier("rmfSongParserStrategy") SongParserStrategy parser,
+                      Map<String, StationDetails> stationDetailsMap) {
+        super(driver, parser);
+        this.stationDetails = stationDetailsMap.get("rmf");
     }
 
     @Override
     public List<Song> scrapeSongs() {
 
-        String url = config.getUrl();
         List<Song> songsList = new ArrayList<>();
 
-        SongParserStrategy parser = config.getSongParserStrategy();
-
         try {
-            driver.get(url);
+            driver.get(stationDetails.getUrl());
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(CSS_ELEMENTS)));
 
@@ -60,13 +66,11 @@ public class RmfScraper extends BaseScraper {
             }
             //TODO is it possible for browser to not popup?
             for (Element element : elements) {
-                songsList.add(parser.parseSong(element, config));
+                songsList.add(parser.parseSong(element, stationDetails));
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            driver.quit();
         }
 
         return songsList;

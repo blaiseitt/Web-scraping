@@ -5,32 +5,39 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pl.buarzej.configuration.StationConfig;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+import pl.buarzej.configuration.StationDetails;
 import pl.buarzej.model.Song;
 import pl.buarzej.strategy.SongParserStrategy;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+@Component
 public class PlusScraper extends BaseScraper {
 
     private static final String CSS_ELEMENTS = "div.vjsPlayingHistory__hit__info";
+    private final StationDetails stationDetails;
 
-    public PlusScraper(StationConfig config) {
-        super(config);
+    public PlusScraper(WebDriver driver,
+                       @Qualifier("plusSongParserStrategy") SongParserStrategy parserStrategy,
+                       Map<String, StationDetails> stationDetailsMap) {
+        super(driver, parserStrategy);
+        this.stationDetails = stationDetailsMap.get("plus");
     }
 
     @Override
     public List<Song> scrapeSongs() {
-        String url = config.getUrl();
         List<Song> songsList = new ArrayList<>();
-        SongParserStrategy parser = config.getSongParserStrategy();
 
         try {
-            driver.get(url);
+            driver.get(stationDetails.getUrl());
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(CSS_ELEMENTS)));
             String pageSource = driver.getPageSource();
@@ -40,13 +47,11 @@ public class PlusScraper extends BaseScraper {
             System.out.println("Number of songs retrieved: " + elements.size());
 
             for (Element element: elements) {
-                songsList.add(parser.parseSong(element, config));
+                songsList.add(parser.parseSong(element, stationDetails));
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            driver.quit();
         }
 
         return songsList;

@@ -1,26 +1,23 @@
 package pl.buarzej.scraper;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import pl.buarzej.configuration.StationConfig;
 import pl.buarzej.model.Song;
+import pl.buarzej.strategy.SongParserStrategy;
 
 import java.util.List;
 
 public abstract class BaseScraper {
 
-    protected WebDriver driver;
-    protected final StationConfig config;
+    protected final WebDriver driver;
+    protected final SongParserStrategy parser;
 
-    public BaseScraper(StationConfig config) {
-        this.config = config;
+    public BaseScraper(WebDriver driver,
+                       SongParserStrategy parser) {
+        this.driver = driver;
+        this.parser = parser;
     }
 
     public abstract List<Song> scrapeSongs();
-
-    public void initializeDriver() {
-        this.driver = new ChromeDriver();
-    }
 
     public void closeDriver() {
         if (driver != null) {

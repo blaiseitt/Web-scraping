@@ -1,20 +1,23 @@
 package pl.buarzej.scraper;
 
-import pl.buarzej.configuration.StationConfig;
-import pl.buarzej.configuration.StationConfiguration;
+import org.springframework.stereotype.Component;
 
+import java.util.Map;
+
+@Component
 public class ScraperFactory {
 
-    public static BaseScraper getScraper(String stationName) {
-        StationConfig config = StationConfiguration.getStationConfig(stationName);
-        if (config == null) {
-            throw new IllegalArgumentException("No scraper configuration found for: " + stationName);
+    private final Map<String, BaseScraper> scraperMap;
+
+    public ScraperFactory(Map<String, BaseScraper> scraperMap) {
+        this.scraperMap = scraperMap;
+    }
+
+    public BaseScraper getScraper(String stationName) {
+        BaseScraper scraper = scraperMap.get(stationName.toLowerCase());
+        if (scraper == null) {
+            throw new UnsupportedOperationException("Unsupported station: " + stationName);
         }
-        return switch (stationName.toLowerCase()) {
-            case "rmf" -> new RmfScraper(config);
-            case "eska" -> new EskaScraper(config);
-            case "plus" -> new PlusScraper(config);
-            default -> throw new UnsupportedOperationException("Unsupported station: " + stationName);
-        };
+        return scraper;
     }
 }

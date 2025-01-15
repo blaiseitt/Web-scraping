@@ -1,16 +1,18 @@
 package pl.buarzej.strategy;
 
 import org.jsoup.nodes.Element;
-import pl.buarzej.configuration.StationConfig;
+import org.springframework.stereotype.Component;
+import pl.buarzej.configuration.StationDetails;
 import pl.buarzej.model.Song;
 
+@Component
 public class RmfSongParserStrategy implements SongParserStrategy {
 
     private static final String CSS_TITLE_AUTHOR = "span.title-text";
     private static final String CSS_PLAYDATE = "span.hour";
 
     @Override
-    public Song parseSong(Element element, StationConfig config) {
+    public Song parseSong(Element element, StationDetails stationDetails) {
         String authorAndTitle = element.select(CSS_TITLE_AUTHOR).text();
         //TODO Same as in Eska
         //split author and title - do it in more convinient way, for example artist a-ha is bugged because of this solution
@@ -18,6 +20,6 @@ public class RmfSongParserStrategy implements SongParserStrategy {
         String authorAndTitleParts[] = authorAndTitle.split("-", 2);
 
         String hour = element.select(CSS_PLAYDATE).text();
-        return new Song(authorAndTitleParts[1].trim(), authorAndTitleParts[0].trim(), hour, null, config.getDisplayName());
+        return new Song(authorAndTitleParts[1].trim(), authorAndTitleParts[0].trim(), hour, null, stationDetails.getDisplayName());
     }
 }

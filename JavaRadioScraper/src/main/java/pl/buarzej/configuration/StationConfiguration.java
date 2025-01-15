@@ -1,20 +1,40 @@
 package pl.buarzej.configuration;
 
-import pl.buarzej.strategy.EskaSongParserStrategy;
-import pl.buarzej.strategy.PlusSongParserStrategy;
-import pl.buarzej.strategy.RmfSongParserStrategy;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
-import java.util.AbstractMap.SimpleEntry;
 import java.util.Map;
 
+@Configuration
+@PropertySource("classpath:scrapers.properties")
 public class StationConfiguration {
 
-    private static final Map<String, StationConfig> STATION_CONFIGS = Map.ofEntries(
-                new SimpleEntry<>("rmf", new StationConfig("https://live.rmf.fm/", "RMF FM", new RmfSongParserStrategy())),
-                new SimpleEntry<>("eska", new StationConfig("https://www.eska.pl/co-bylo-grane/", "ESKA", new EskaSongParserStrategy())),
-                new SimpleEntry<>("plus", new StationConfig("https://www.radioplus.pl/co-bylo-grane/", "Radio Plus", new PlusSongParserStrategy())));
+    @Value("${rmf.url}")
+    private String rmfUrl;
 
-    public static StationConfig getStationConfig(String stationName) {
-        return STATION_CONFIGS.get(stationName);
+    @Value("${rmf.displayName}")
+    private String rmfDisplayName;
+
+    @Value("${eska.url}")
+    private String eskaUrl;
+
+    @Value("${eska.displayName}")
+    private String eskaDisplayName;
+
+    @Value("${plus.url}")
+    private String plusUrl;
+
+    @Value("${plus.displayName}")
+    private String plusDisplayName;
+
+    @Bean
+    public Map<String, StationDetails> stationDetailsMap() {
+        return Map.of(
+                "rmf", new StationDetails(rmfUrl, rmfDisplayName),
+                "eska", new StationDetails(eskaUrl, eskaDisplayName),
+                "plus", new StationDetails(plusUrl, plusDisplayName)
+        );
     }
 }
