@@ -3,15 +3,18 @@ package pl.buarzej.model;
 public class Song {
 
     private String title;
+    //TODO List<author>
     private String author;
-    private String playedTime;
+    private String playedHour;
     private String playedDate;
     private String stationName;
+    //TODO List of genres that song is
+    //TODO Save scraped songs into some DB
 
-    public Song(String title, String author, String playedTime, String playedDate, String stationName) {
+    public Song(String title, String author, String playedHour, String playedDate, String stationName) {
         this.title = title;
         this.author = author;
-        this.playedTime = playedTime;
+        this.playedHour = playedHour;
         this.playedDate = playedDate;
         this.stationName = stationName;
     }
@@ -32,12 +35,12 @@ public class Song {
         this.author = author;
     }
 
-    public String getPlayedTime() {
-        return playedTime;
+    public String getPlayedHour() {
+        return playedHour;
     }
 
-    public void setPlayedTime(String playedTime) {
-        this.playedTime = playedTime;
+    public void setPlayedHour(String playedHour) {
+        this.playedHour = playedHour;
     }
 
     public String getPlayedDate() {

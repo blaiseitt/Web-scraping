@@ -27,6 +27,7 @@ public class SongController {
 
     @GetMapping("/all-stations")
     public List<Song> getAllSongs() {
+        //TODO json structure so results can be grouped by station
         return scrapingService.runAllScrapers();
     }
 }

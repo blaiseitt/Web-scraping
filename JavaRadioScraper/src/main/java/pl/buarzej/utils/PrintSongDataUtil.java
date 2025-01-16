@@ -13,7 +13,7 @@ public final class PrintSongDataUtil {
         for (Song song : songs) {
             result.append("Song title: ").append(song.getTitle())
                     .append(", artist: ").append(song.getAuthor())
-                    .append(", played at ").append(song.getPlayedTime())
+                    .append(", played at ").append(song.getPlayedHour())
                     .append(" in station: ").append(song.getStationName()).append(".\n");
         }
         return result.toString();

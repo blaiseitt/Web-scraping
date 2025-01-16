@@ -10,7 +10,7 @@ import java.util.Map;
 @Configuration
 @PropertySource("classpath:scrapers.properties")
 public class StationConfiguration {
-
+//TODO i dont like this solution
     @Value("${rmf.url}")
     private String rmfUrl;
 

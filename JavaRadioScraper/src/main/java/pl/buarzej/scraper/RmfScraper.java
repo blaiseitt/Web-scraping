@@ -64,7 +64,6 @@ public class RmfScraper extends BaseScraper {
                 Thread.sleep(scrollPauseTime);
                 scrollAttempts++;
             }
-            //TODO is it possible for browser to not popup?
             for (Element element : elements) {
                 songsList.add(parser.parseSong(element, stationDetails));
             }
