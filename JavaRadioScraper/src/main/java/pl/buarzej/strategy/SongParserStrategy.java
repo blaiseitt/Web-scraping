@@ -1,7 +1,7 @@
 package pl.buarzej.strategy;
 
 import org.jsoup.nodes.Element;
-import pl.buarzej.configuration.StationDetails;
+import pl.buarzej.model.StationDetails;
 import pl.buarzej.model.Song;
 
 public interface SongParserStrategy {

@@ -2,7 +2,7 @@ package pl.buarzej.strategy;
 
 import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Component;
-import pl.buarzej.configuration.StationDetails;
+import pl.buarzej.model.StationDetails;
 import pl.buarzej.model.Song;
 import pl.buarzej.service.SongDateService;
 

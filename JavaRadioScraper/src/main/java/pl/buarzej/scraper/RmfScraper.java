@@ -11,8 +11,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import pl.buarzej.configuration.StationDetails;
 import pl.buarzej.model.Song;
+import pl.buarzej.model.StationDetails;
 import pl.buarzej.strategy.SongParserStrategy;
 
 import java.time.Duration;

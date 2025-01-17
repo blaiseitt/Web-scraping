@@ -1,4 +1,4 @@
-package pl.buarzej.configuration;
+package pl.buarzej.model;
 
 public class StationDetails {
     private final String url;

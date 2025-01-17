@@ -2,9 +2,13 @@ package pl.buarzej.strategy;
 
 import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Component;
-import pl.buarzej.configuration.StationDetails;
+import pl.buarzej.model.StationDetails;
 import pl.buarzej.model.Song;
 import pl.buarzej.service.SongDateService;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 @Component
 public class RmfSongParserStrategy implements SongParserStrategy {
@@ -22,11 +26,13 @@ public class RmfSongParserStrategy implements SongParserStrategy {
         String authorAndTitle = element.select(CSS_TITLE_AUTHOR).text();
         //split author and title - do it in more convinient way, for example artist a-ha is bugged because of this solution
         //when multiple authors they are split with '/'
-        String authorAndTitleParts[] = authorAndTitle.split("-", 2);
+        List<String> authorAndTitleParts = Optional.ofNullable(authorAndTitle)
+                .map(text -> Arrays.asList(text.split("-", 2)))
+                .filter(parts -> parts.size() == 2)
+                .orElse(Arrays.asList("", ""));
 
         String hour = element.select(CSS_PLAYDATE).text();
         String playedDate = songDateService.getSongPlayedDate(hour);
-        //TODO wtf is this fix for sure
-        return new Song(authorAndTitleParts[1].trim(), authorAndTitleParts[0].trim(), hour, playedDate, stationDetails.getDisplayName());
+        return new Song(authorAndTitleParts.get(1).trim(), authorAndTitleParts.get(0).trim(), hour, playedDate, stationDetails.getDisplayName());
     }
 }

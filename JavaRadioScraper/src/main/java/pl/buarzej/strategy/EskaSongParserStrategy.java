@@ -2,7 +2,7 @@ package pl.buarzej.strategy;
 
 import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Component;
-import pl.buarzej.configuration.StationDetails;
+import pl.buarzej.model.StationDetails;
 import pl.buarzej.model.Song;
 import pl.buarzej.service.SongDateService;
 
@@ -27,12 +27,9 @@ public class EskaSongParserStrategy implements SongParserStrategy {
         String author = element.select(CSS_AUTHOR).text();
         //split author and title - do it in more convinient way, for example artist a-ha is bugged because of this solution
         //when multiple authors they are split with '/'
-
-        //TODO think if this logic should be moved to separate method, util class or is it good here
         String hour = element.select(CSS_PLAYDATE).text();
         String filteredHour = hour.replace(FILTER_HOUR_PHRASE, "");
         String playedDate = songDateService.getSongPlayedDate(filteredHour);
-        //TODO service for playedDate
         return new Song(title, author, filteredHour, playedDate, stationDetails.getDisplayName());
     }
 
