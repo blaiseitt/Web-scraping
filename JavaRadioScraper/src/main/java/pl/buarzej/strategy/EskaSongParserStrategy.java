@@ -30,7 +30,8 @@ public class EskaSongParserStrategy implements SongParserStrategy {
         String hour = element.select(CSS_PLAYDATE).text();
         String filteredHour = hour.replace(FILTER_HOUR_PHRASE, "");
         String playedDate = songDateService.getSongPlayedDate(filteredHour);
-        return new Song(title, author, filteredHour, playedDate, stationDetails.getDisplayName());
+
+        return new Song(title, author, filteredHour, playedDate, stationDetails);
     }
 
 }

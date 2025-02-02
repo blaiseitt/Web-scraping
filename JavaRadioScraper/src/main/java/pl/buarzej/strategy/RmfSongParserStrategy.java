@@ -33,6 +33,7 @@ public class RmfSongParserStrategy implements SongParserStrategy {
 
         String hour = element.select(CSS_PLAYDATE).text();
         String playedDate = songDateService.getSongPlayedDate(hour);
-        return new Song(authorAndTitleParts.get(1).trim(), authorAndTitleParts.get(0).trim(), hour, playedDate, stationDetails.getDisplayName());
+
+        return new Song(authorAndTitleParts.get(1).trim(), authorAndTitleParts.get(0).trim(), hour, playedDate, stationDetails);
     }
 }

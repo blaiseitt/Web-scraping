@@ -7,16 +7,16 @@ public class Song {
     private String author;
     private String playedHour;
     private String playedDate;
-    private String stationName;
+    private StationDetails stationDetails;
     //TODO List of genres that song is
     //TODO Save scraped songs into some DB
 
-    public Song(String title, String author, String playedHour, String playedDate, String stationName) {
+    public Song(String title, String author, String playedHour, String playedDate, StationDetails stationDetails) {
         this.title = title;
         this.author = author;
         this.playedHour = playedHour;
         this.playedDate = playedDate;
-        this.stationName = stationName;
+        this.stationDetails = stationDetails;
     }
 
     public String getTitle() {
@@ -51,11 +51,11 @@ public class Song {
         this.playedDate = playedDate;
     }
 
-    public String getStationName() {
-        return stationName;
+    public StationDetails getStationDetails() {
+        return stationDetails;
     }
 
-    public void setStationName(String stationName) {
-        this.stationName = stationName;
+    public void setStationDetails(StationDetails stationDetails) {
+        this.stationDetails = stationDetails;
     }
 }
