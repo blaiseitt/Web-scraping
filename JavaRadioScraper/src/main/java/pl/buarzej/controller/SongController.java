@@ -5,7 +5,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.buarzej.model.Song;
+import pl.buarzej.service.ScrapingService;
 import pl.buarzej.service.ScrapingServiceImpl;
+import pl.buarzej.service.SongService;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,18 +18,18 @@ import java.util.stream.Collectors;
 @RequestMapping("/api")
 public class SongController {
 
-    private final ScrapingServiceImpl scrapingService;
+    private SongService songService;
 
-    public SongController(ScrapingServiceImpl scrapingService) {
-        this.scrapingService = scrapingService;
+    public SongController(SongService songService) {
+        this.songService = songService;
     }
 
     @GetMapping("/{station}")
     public Map<String, List<Map<String, String>>> getSongsByStation(@PathVariable String station) {
         //TODO runSingleScraper(stationName) add and use here
-        List<Song> songs = scrapingService.runSelectedScrapers(List.of(station));
+        List<Song> songs = songService.getLatestSongs(station);
 
-        //TODO do it in separate function (populator)
+        //TODO do it in separate function (populator) + DTO
         return songs.stream()
                 .collect(Collectors.groupingBy(
                         song -> song.getStationDetails().getDisplayName(),
@@ -44,9 +46,7 @@ public class SongController {
 
     @GetMapping("/all-stations")
     public Map<String, List<Map<String, String>>> getAllSongs() {
-        //TODO json structure so results can be grouped by station
-
-        List<Song> songs = scrapingService.runAllScrapers();
+        List<Song> songs = songService.getSongsForAll();
         return songs.stream()
                 .collect(Collectors.groupingBy(
                         song -> song.getStationDetails().getDisplayName(),

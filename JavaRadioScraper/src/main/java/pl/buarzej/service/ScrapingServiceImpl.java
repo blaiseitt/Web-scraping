@@ -11,14 +11,13 @@ import java.util.List;
 @Service
 public class ScrapingServiceImpl implements ScrapingService{
 
-    private final List<String> stationNames = List.of("rmf", "eska", "plus");
     private final ScraperFactory scraperFactory;
 
     public ScrapingServiceImpl(ScraperFactory scraperFactory) {
         this.scraperFactory = scraperFactory;
     }
 
-    public List<Song> runAllScrapers() {
+    public List<Song> runAllScrapers(List<String> stationNames) {
         List<Song> songList = new ArrayList<>();
         stationNames.forEach(stationName -> {
             BaseScraper scraper = scraperFactory.getScraper(stationName);

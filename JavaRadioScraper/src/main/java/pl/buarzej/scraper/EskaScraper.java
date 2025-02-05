@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import pl.buarzej.dao.StationDetailsRepository;
 import pl.buarzej.model.Song;
 import pl.buarzej.model.StationDetails;
 import pl.buarzej.strategy.SongParserStrategy;
@@ -23,19 +24,21 @@ import java.util.Map;
 public class EskaScraper extends BaseScraper {
 
     private static final String CSS_ELEMENTS = "div.vjsPlayingHistory__hit__info";
-    private final StationDetails stationDetails;
+    private StationDetailsRepository stationDetailsRepository;
 
     public EskaScraper(WebDriver driver,
                        @Qualifier("eskaSongParserStrategy") SongParserStrategy parser,
-                       Map<String, StationDetails> stationDetailsMap) {
+                       StationDetailsRepository stationDetailsRepository) {
         super(driver, parser);
-        this.stationDetails = stationDetailsMap.get("eska");
+        this.stationDetailsRepository = stationDetailsRepository;
     }
 
     @Override
     public List<Song> scrapeSongs() {
 
         List<Song> songsList = new ArrayList<>();
+        //TODO Figure out more generic solution
+        StationDetails stationDetails = stationDetailsRepository.findByName("eska");
 
         try {
             driver.get(stationDetails.getUrl());

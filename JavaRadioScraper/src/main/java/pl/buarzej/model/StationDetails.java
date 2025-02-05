@@ -1,12 +1,29 @@
 package pl.buarzej.model;
 
-public class StationDetails {
-    private final String url;
-    private final String displayName;
+import jakarta.persistence.*;
 
-    public StationDetails(String url, String displayName) {
+import java.util.List;
+
+@Entity
+public class StationDetails {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String url;
+    private String name;
+    private String displayName;
+
+    @OneToMany(mappedBy = "stationDetails", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Song> songs;
+
+    public StationDetails() {}
+
+    public StationDetails(String name, String url, String displayName) {
         this.url = url;
         this.displayName = displayName;
+        this.name = name;
     }
 
     public String getUrl() {
@@ -15,5 +32,21 @@ public class StationDetails {
 
     public String getDisplayName() {
         return displayName;
+    }
+
+    public List<Song> getSongs() {
+        return songs;
+    }
+
+    public void setSongs(List<Song> songs) {
+        this.songs = songs;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

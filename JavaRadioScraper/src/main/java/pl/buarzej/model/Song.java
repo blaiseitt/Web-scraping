@@ -1,15 +1,37 @@
 package pl.buarzej.model;
 
+import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
+
+@Entity
 public class Song {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String title;
     //TODO List<author>
     private String author;
     private String playedHour;
     private String playedDate;
+
+    //TODO lastUpdated should be equal for all elements that are updated in batch
+    private LocalDateTime lastUpdated;
+
+    @PrePersist
+    @PreUpdate
+    public void setTimestamp() {
+        this.lastUpdated = LocalDateTime.now();
+    }
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "station_id")
     private StationDetails stationDetails;
     //TODO List of genres that song is
     //TODO Save scraped songs into some DB
+
+    public Song() {}
 
     public Song(String title, String author, String playedHour, String playedDate, StationDetails stationDetails) {
         this.title = title;

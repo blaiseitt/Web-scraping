@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ScrapingService {
 
-    List<Song> runAllScrapers();
+    List<Song> runAllScrapers(List<String> stationNames);
 
-    List<Song> runSelectedScrapers(List<String> stations);
+    List<Song> runSelectedScrapers(List<String> stationNames);
 }

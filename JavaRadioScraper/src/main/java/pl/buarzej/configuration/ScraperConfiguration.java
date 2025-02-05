@@ -12,6 +12,7 @@ import java.util.Map;
 @Configuration
 public class ScraperConfiguration {
 
+    //TODO more generic way of creating scraperMap
     @Bean
     public Map<String, BaseScraper> scraperMap(
             RmfScraper rmfScraper,
@@ -19,7 +20,7 @@ public class ScraperConfiguration {
             PlusScraper plusScraper
     ) {
         return Map.of(
-                "rmf", rmfScraper,
+                "rmffm", rmfScraper,
                 "eska", eskaScraper,
                 "plus", plusScraper
         );
