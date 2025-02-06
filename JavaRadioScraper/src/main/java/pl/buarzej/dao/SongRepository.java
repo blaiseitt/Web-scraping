@@ -18,4 +18,6 @@ public interface SongRepository extends JpaRepository<Song, Long> {
             "AND s.lastUpdated >= :updateThreshold ORDER BY s.lastUpdated DESC")
     List<Song> findRecentSongs(@Param("stationName") String stationName,
                                @Param("updateThreshold")LocalDateTime updateThreshold);
+
+    boolean existsByTitleAndAuthorAndPlayedHour(String title, String author, String playedHour);
 }

@@ -45,6 +45,7 @@ public class RmfScraper extends BaseScraper {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(CSS_ELEMENTS)));
 
+            //TODO read about scrolls - why can i see songs on page after 3 scrolls but 7 are necessary?
             int scrollAttempts = 0;
             final int maxScrollAttempts = 7;
             final int scrollPauseTime = 250;

@@ -3,6 +3,7 @@ package pl.buarzej.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 public class Song {
@@ -12,24 +13,30 @@ public class Song {
     private Long id;
     private String title;
     //TODO List<author>
+
+    @Column(nullable = false)
     private String author;
+
+    @Column(nullable = false)
     private String playedHour;
+
+    @Column(nullable = false)
     private String playedDate;
 
     //TODO lastUpdated should be equal for all elements that are updated in batch
     private LocalDateTime lastUpdated;
 
     @PrePersist
-    @PreUpdate
-    public void setTimestamp() {
-        this.lastUpdated = LocalDateTime.now();
+    public void prePersist() {
+        if (lastUpdated == null) {
+            lastUpdated = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+        }
     }
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "station_id")
     private StationDetails stationDetails;
     //TODO List of genres that song is
-    //TODO Save scraped songs into some DB
 
     public Song() {}
 
@@ -79,5 +86,9 @@ public class Song {
 
     public void setStationDetails(StationDetails stationDetails) {
         this.stationDetails = stationDetails;
+    }
+
+    public void setLastUpdated(LocalDateTime lastUpdated) {
+        this.lastUpdated = lastUpdated;
     }
 }
