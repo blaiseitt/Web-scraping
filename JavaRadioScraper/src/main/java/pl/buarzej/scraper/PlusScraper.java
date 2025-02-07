@@ -18,18 +18,21 @@ import pl.buarzej.strategy.SongParserStrategy;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Component
-public class PlusScraper extends BaseScraper {
+public class PlusScraper implements BaseScraper {
 
     private static final String CSS_ELEMENTS = "div.vjsPlayingHistory__hit__info";
+
+    private SongParserStrategy parser;
+    private WebDriver driver;
     private StationDetailsRepository stationDetailsRepository;
 
     public PlusScraper(WebDriver driver,
-                       @Qualifier("plusSongParserStrategy") SongParserStrategy parserStrategy,
+                       @Qualifier("plusSongParserStrategy") SongParserStrategy parser,
                        StationDetailsRepository stationDetailsRepository) {
-        super(driver, parserStrategy);
+        this.driver = driver;
+        this.parser = parser;
         this.stationDetailsRepository = stationDetailsRepository;
     }
 

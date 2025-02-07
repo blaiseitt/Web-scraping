@@ -19,18 +19,20 @@ import pl.buarzej.strategy.SongParserStrategy;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Component
-public class RmfScraper extends BaseScraper {
+public class RmfScraper implements BaseScraper {
 
     private static final String CSS_ELEMENTS = "div.item.song.visible";
+    private SongParserStrategy parser;
+    private WebDriver driver;
     private StationDetailsRepository stationDetailsRepository;
 
     public RmfScraper(WebDriver driver,
                       @Qualifier("rmfSongParserStrategy") SongParserStrategy parser,
                       StationDetailsRepository stationDetailsRepository) {
-        super(driver, parser);
+        this.driver = driver;
+        this.parser = parser;
         this.stationDetailsRepository = stationDetailsRepository;
     }
 
