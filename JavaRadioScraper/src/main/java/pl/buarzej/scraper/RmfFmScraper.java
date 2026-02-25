@@ -21,16 +21,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class RmfScraper implements BaseScraper {
+public class RmfFmScraper implements BaseScraper {
 
     private static final String CSS_ELEMENTS = "div.item.song.visible";
     private SongParserStrategy parser;
     private WebDriver driver;
     private StationDetailsRepository stationDetailsRepository;
 
-    public RmfScraper(WebDriver driver,
-                      @Qualifier("rmfSongParserStrategy") SongParserStrategy parser,
-                      StationDetailsRepository stationDetailsRepository) {
+    public RmfFmScraper(WebDriver driver,
+                        @Qualifier("rmfSongParserStrategy") SongParserStrategy parser,
+                        StationDetailsRepository stationDetailsRepository) {
         this.driver = driver;
         this.parser = parser;
         this.stationDetailsRepository = stationDetailsRepository;

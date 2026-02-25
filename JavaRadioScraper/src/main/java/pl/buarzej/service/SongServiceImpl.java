@@ -15,6 +15,8 @@ import java.util.List;
 @Service
 public class SongServiceImpl implements SongService {
 
+    private static final long updateInterval = 15;
+
     private SongRepository songRepository;
     private ScrapingService scrapingService;
     private StationDetailsRepository stationDetailsRepository;
@@ -30,7 +32,7 @@ public class SongServiceImpl implements SongService {
     @Override
     public List<Song> getLatestSongs(String stationName) {
         //TODO prevent duplicate songs from appearing
-        LocalDateTime updateThreshold = LocalDateTime.now().minusMinutes(15).truncatedTo(ChronoUnit.SECONDS);
+        LocalDateTime updateThreshold = LocalDateTime.now().minusMinutes(updateInterval).truncatedTo(ChronoUnit.SECONDS);
 
         List<Song> recentSongs = songRepository.findRecentSongs(stationName, updateThreshold);
 

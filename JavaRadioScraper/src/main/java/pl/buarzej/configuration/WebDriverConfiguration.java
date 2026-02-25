@@ -18,7 +18,7 @@ public class WebDriverConfiguration {
     @Bean
     public WebDriver webDriver() {
         if (driver == null) {
-            System.setProperty("webdriver.chrome.driver", "E:\\Projects\\Webdrivers\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe");
+            System.setProperty("webdriver.chrome.driver", "E:\\Projects\\Webdrivers\\chromedriver-win64\\chromedriver.exe");
             driver = new ChromeDriver(options);
         }
 

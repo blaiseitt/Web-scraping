@@ -27,7 +27,6 @@ public class SongController {
     @GetMapping("/{station}")
     public Map<String, List<Map<String, String>>> getSongsByStation(@PathVariable String station) {
         List<Song> songs = songService.getLatestSongs(station);
-
         //TODO do it in separate function (populator) + DTO
         return songs.stream()
                 .collect(Collectors.groupingBy(

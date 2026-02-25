@@ -5,9 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import pl.buarzej.dao.StationDetailsRepository;
 import pl.buarzej.model.StationDetails;
 import pl.buarzej.scraper.BaseScraper;
-import pl.buarzej.scraper.EskaScraper;
-import pl.buarzej.scraper.PlusScraper;
-import pl.buarzej.scraper.RmfScraper;
 
 import java.util.HashMap;
 import java.util.List;
