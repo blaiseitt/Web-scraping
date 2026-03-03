@@ -1,0 +1,36 @@
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource">
+
+    <!-- Author Column -->
+    <ng-container matColumnDef="author">
+      <th mat-header-cell *matHeaderCellDef> Author </th>
+      <td mat-cell *matCellDef="let element"> {{element.author}} </td>
+    </ng-container>
+
+    <!-- Title Column -->
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef> Title </th>
+      <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+    </ng-container>
+
+    <!-- Played Hour Column -->
+    <ng-container matColumnDef="playedHour">
+      <th mat-header-cell *matHeaderCellDef> Played Hour </th>
+      <td mat-cell *matCellDef="let element"> {{element.playedHour}} </td>
+    </ng-container>
+
+    <!-- Played Date Column -->
+    <ng-container matColumnDef="playedDate">
+      <th mat-header-cell *matHeaderCellDef> Played Date </th>
+      <td mat-cell *matCellDef="let element"> {{element.playedDate}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                 showFirstLastButtons
+                 aria-label="Select page of periodic elements">
+  </mat-paginator>
+</div>

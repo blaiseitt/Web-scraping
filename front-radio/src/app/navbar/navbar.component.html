@@ -1,11 +1,13 @@
 <mat-toolbar>
-  <button mat-button>Basic</button>
-  <button mat-button disabled>Basic</button>
+  <button mat-button (click)="selectRadio('eska')">ESKA</button>
+  <button mat-button (click)="selectRadio('plus')">PLUS</button>
+  <button mat-button (click)="selectRadio('rmffm')">RMF FM</button>
+  
+  <span class="example-spacer"></span>
+
   <mat-form-field class="example-full-width">
     <mat-label>Piosenka</mat-label>
     <input matInput placeholder="Np. waka waka" value="">
   </mat-form-field>
-  <span class="example-spacer"></span>
-  <button mat-button>Basic</button>
-  <button mat-button>Basic</button>
+
 </mat-toolbar>
