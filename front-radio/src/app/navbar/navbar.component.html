@@ -1,7 +1,19 @@
 <mat-toolbar>
-  <button mat-button (click)="selectRadio('eska')">ESKA</button>
-  <button mat-button (click)="selectRadio('plus')">PLUS</button>
-  <button mat-button (click)="selectRadio('rmffm')">RMF FM</button>
+  <button mat-button
+    [class.active]="activeRadio === 'eska'"
+    (click)="selectRadio('eska')">
+    ESKA
+  </button>
+  <button mat-button
+    [class.active]="activeRadio === 'plus'"
+    (click)="selectRadio('plus')">
+    PLUS
+  </button>
+  <button mat-button 
+    [class.active]="activeRadio === 'rmffm'"
+    (click)="selectRadio('rmffm')">
+    RMF FM
+  </button>
   
   <span class="example-spacer"></span>
 
