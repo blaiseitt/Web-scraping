@@ -1,9 +1,6 @@
 package pl.buarzej.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.buarzej.model.Song;
 import pl.buarzej.service.ScrapingService;
 import pl.buarzej.service.ScrapingServiceImpl;
@@ -15,6 +12,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api")
 public class SongController {
 
