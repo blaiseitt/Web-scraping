@@ -5,11 +5,9 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.buarzej.dao.SongRepository;
 import pl.buarzej.dao.StationDetailsRepository;
 import pl.buarzej.model.Song;
-import pl.buarzej.model.StationDetails;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

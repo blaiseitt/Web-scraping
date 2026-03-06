@@ -2,8 +2,6 @@ package pl.buarzej.controller;
 
 import org.springframework.web.bind.annotation.*;
 import pl.buarzej.model.Song;
-import pl.buarzej.service.ScrapingService;
-import pl.buarzej.service.ScrapingServiceImpl;
 import pl.buarzej.service.SongService;
 
 import java.util.HashMap;
