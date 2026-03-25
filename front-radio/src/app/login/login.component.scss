@@ -1,0 +1,26 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #c1c1f7;
+}
+.login-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 32px;
+  width: 320px;
+
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.login-container {
+  transition: transform 0.2s ease;
+}
+
+.login-container:hover {
+  transform: translateY(-2px);
+}
