@@ -1,10 +1,11 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component} from '@angular/core';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
+import { RadioService } from '../../services/radio.service';
 
 
 @Component({
@@ -17,10 +18,17 @@ import {FormsModule} from '@angular/forms';
 
  export class AppNavbar {
 
-    @Input() activeRadio!: string;
-    @Output() radioSelected = new EventEmitter<string>();
+    activeRadio = '';
+
+    constructor(private radioService: RadioService) {}
     
+    ngOnInit() {
+        this.radioService.radio$.subscribe(radio => {
+            this.activeRadio = radio;
+        })
+    }
+
     selectRadio(radio: string) {
-        this.radioSelected.emit(radio);
+        this.radioService.setRadio(radio);
     }
 }

@@ -1,8 +1,10 @@
-import { Input, OnChanges, SimpleChanges, AfterViewInit, Component, ViewChild, OnInit, inject } from '@angular/core';
+import { OnChanges, SimpleChanges, AfterViewInit, Component, ViewChild, OnInit, inject } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { HttpClient } from '@angular/common/http';
+import { RadioService } from '../../services/radio.service';
+import { Subscription } from 'rxjs';
 
 export interface SongDetails {
   author: string;
@@ -23,7 +25,11 @@ export class SongsTable implements OnInit, AfterViewInit, OnChanges {
 
   loading = false;
 
-  @Input() selectedRadio!: string;
+  selectedRadio = '';
+
+  sub!: Subscription;
+
+  constructor(private radioService: RadioService) {}
 
   http = inject(HttpClient);
 
@@ -33,7 +39,10 @@ export class SongsTable implements OnInit, AfterViewInit, OnChanges {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit(): void {
-    this.loadRadio(this.selectedRadio);
+    this.sub = this.radioService.radio$.subscribe(radio => {
+      this.selectedRadio = radio;
+      this.loadRadio(radio);
+    })
   }
   
   ngAfterViewInit() {
@@ -45,8 +54,13 @@ export class SongsTable implements OnInit, AfterViewInit, OnChanges {
       this.loadRadio(this.selectedRadio);
     }
   }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe()
+  }
 //http://127.0.0.1:8080/api/
 //TODO move this adress to const
+//TODO move this to some service maybe
   loadRadio(radioName: string): void {
     this.loading = true;
     this.http

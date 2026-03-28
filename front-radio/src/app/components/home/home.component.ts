@@ -12,9 +12,4 @@ import { SongsTable } from '../songsTable/songsTable.component';
 
 export class HomeComponent {
   title = 'Find your song';
-  currentRadio = 'eska';
-
-  onRadioChange(radio: string) {
-    this.currentRadio = radio;
-  }
 }
