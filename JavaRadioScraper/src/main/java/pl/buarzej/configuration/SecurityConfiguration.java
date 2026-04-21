@@ -31,7 +31,12 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/**").permitAll()
                         .requestMatchers("/login/**").permitAll()
                         .anyRequest().authenticated()
-                );
+                )
+                .formLogin(form -> form
+                        .loginProcessingUrl("/login")
+                        .permitAll()
+                )
+                .logout(logout -> logout.logoutUrl("/logout"));
 
         return http.build();
     }
