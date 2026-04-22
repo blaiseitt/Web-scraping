@@ -14,12 +14,22 @@
     (click)="selectRadio('rmffm')">
     RMF FM
   </button>
-  
+
   <span class="example-spacer"></span>
 
   <mat-form-field class="example-full-width">
     <mat-label>Piosenka</mat-label>
     <input matInput placeholder="Np. waka waka" value="">
   </mat-form-field>
+
+  <!-- TODO successful login message, successful logout message
+   TODO JSESSIONID should be removed when logout i think -->
+
+  @if (authService.isLoggedIn()) {
+    <button mat-button (click)="adminPanel()">Admin panel</button>
+    <button mat-button (click)="logout()">Logout</button>
+  } @else {
+    <button mat-button (click)="login()">Login</button>
+  }
 
 </mat-toolbar>

@@ -1,16 +1,26 @@
 <div class="login-container">
     <h2>Login</h2>
+
     <mat-form-field>
         <mat-label>Enter your login</mat-label>
-        <input matInput>
+        <input matInput [(ngModel)]="username" />
     </mat-form-field>
+
+    <!-- TODO upgrade unsuccesful login so it is red
+    TODO upgrade succesful login with message
+    TODO return home button -->
     <mat-form-field>
         <mat-label>Enter your password</mat-label>
-        <input matInput [type]="hide() ? 'password' : 'text'" />
+        <input matInput [type]="hide() ? 'password' : 'text'" [(ngModel)]="password" />
         <button matIconButton matSuffix (click)="clickEvent($event)" [attr.aria-label]="'Hide password'"
             [attr.aria-pressed]="hide()">
             <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
     </mat-form-field>
-    <button mat-raised-button color="primary">Login</button>
+
+    @if (errorMessage()) {
+    <p class="error">{{ errorMessage() }}</p>
+    }
+
+    <button mat-raised-button color="primary" (click)="onLogin()">Login</button>
 </div>

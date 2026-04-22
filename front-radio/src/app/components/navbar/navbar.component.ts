@@ -6,6 +6,8 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
 import { RadioService } from '../../services/radio.service';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -20,7 +22,7 @@ import { RadioService } from '../../services/radio.service';
 
     activeRadio = '';
 
-    constructor(private radioService: RadioService) {}
+    constructor(private radioService: RadioService, public authService: AuthService, private router: Router) {}
     
     ngOnInit() {
         this.radioService.radio$.subscribe(radio => {
@@ -30,5 +32,17 @@ import { RadioService } from '../../services/radio.service';
 
     selectRadio(radio: string) {
         this.radioService.setRadio(radio);
+    }
+
+    login() {
+        this.router.navigate(['/login']);
+    }
+
+    logout() {
+        this.authService.logout().subscribe(() => this.router.navigate(['/']));
+    }
+
+    adminPanel() {
+        this.router.navigate(['/admin']);
     }
 }
