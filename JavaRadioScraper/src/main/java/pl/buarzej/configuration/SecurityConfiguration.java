@@ -34,9 +34,18 @@ public class SecurityConfiguration {
                 )
                 .formLogin(form -> form
                         .loginProcessingUrl("/login")
+                        .successHandler((req, res, auth) -> res.setStatus(200))
+                        .failureHandler((req, res, auth) -> res.setStatus(401))
                         .permitAll()
                 )
-                .logout(logout -> logout.logoutUrl("/logout"));
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessHandler((req, res, auth) -> res.setStatus(200))
+                )
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint((req, res, e) -> res.setStatus(401))
+                        .accessDeniedHandler((req, res, e) -> res.setStatus(403))
+                );
 
         return http.build();
     }
