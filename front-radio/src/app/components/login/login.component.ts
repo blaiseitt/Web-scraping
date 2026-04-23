@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { AuthService } from '../../services/auth.service';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,11 @@ export class LoginComponent {
   password = '';
   errorMessage = signal('');
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService, 
+    private router: Router,
+    private notify: NotificationService
+  ) {}
 
   clickEvent(event: MouseEvent) {
     this.hide.set(!this.hide());
@@ -32,7 +37,7 @@ export class LoginComponent {
   onLogin() {
     this.authService.login(this.username, this.password).subscribe({
       next: () => this.router.navigate(['/']),
-      error: () => this.errorMessage.set('Invalid username or password')
+      error: () => this.notify.error('Invalid username or password')
     });
     console.log("Hello");
   }
