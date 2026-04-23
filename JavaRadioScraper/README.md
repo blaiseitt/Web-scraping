@@ -14,3 +14,6 @@
 12. redis cache
 13. connection pool
 14. pagination
+15. Kafka jakoś dopchać?
+16. Serwis do wykresów w pythonie
+17. Ulepszenie scrapera możliwość dodawania stacji z poziomu administratora

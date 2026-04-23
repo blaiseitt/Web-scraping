@@ -22,24 +22,16 @@ public class SongController {
     @GetMapping("/{station}")
     public Map<String, List<Map<String, String>>> getSongsByStation(@PathVariable String station) {
         List<Song> songs = songService.getLatestSongs(station);
-        //TODO do it in separate function (populator) + DTO
-        return songs.stream()
-                .collect(Collectors.groupingBy(
-                        song -> song.getStationDetails().getDisplayName(),
-                        Collectors.mapping(song -> {
-                            Map<String, String> songData = new HashMap<>();
-                            songData.put("title", song.getTitle());
-                            songData.put("author", song.getAuthor());
-                            songData.put("playedHour", song.getPlayedHour());
-                            songData.put("playedDate", song.getPlayedDate());
-                            return songData;
-                        }, Collectors.toList())
-                ));
+        return populateRadioSongs(songs);
     }
 
     @GetMapping("/all-stations")
     public Map<String, List<Map<String, String>>> getAllSongs() {
         List<Song> songs = songService.getSongsForAll();
+        return populateRadioSongs(songs);
+    }
+
+    private Map<String, List<Map<String, String>>> populateRadioSongs(List<Song> songs) {
         return songs.stream()
                 .collect(Collectors.groupingBy(
                         song -> song.getStationDetails().getDisplayName(),

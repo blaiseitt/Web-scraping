@@ -23,7 +23,6 @@ public class Song {
     @Column(nullable = false)
     private String playedDate;
 
-    //TODO lastUpdated should be equal for all elements that are updated in batch
     private LocalDateTime lastUpdated;
 
     @PrePersist
