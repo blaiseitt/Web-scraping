@@ -40,6 +40,8 @@ public class SecurityConfiguration {
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
+                        .deleteCookies("JSESSIONID")
+                        .invalidateHttpSession(true)
                         .logoutSuccessHandler((req, res, auth) -> res.setStatus(200))
                 )
                 .exceptionHandling(ex -> ex
